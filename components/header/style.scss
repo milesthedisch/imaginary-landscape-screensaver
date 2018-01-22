@@ -1,0 +1,29 @@
+@import '../style/variables.scss';
+
+.header {
+  display: flex;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 4em;
+  background: $primary-color;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+
+  a {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    text-decoration-color: $secondary-color;
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+      line-height: 1.5em;
+      align-items: center;
+      justify-content: center;
+      color: $foreground-color;
+    }
+  }
+}
