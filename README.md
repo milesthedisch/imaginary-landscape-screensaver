@@ -3,8 +3,8 @@ This website allow the user to traverse through all the cool imaginary landscape
 
 ## Dependencies
 
-- node >= 8.9
-- npm >= 5.5.1
+- [node](https://nodejs.org) >= 8.9
+- [npm](https://nodejs.org) >= 5.5.1
 - [preact-cli](https://github.com/developit/preact-cli)
 
 ## Backend
