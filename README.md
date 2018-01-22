@@ -5,7 +5,7 @@ This website allow the user to traverse through all the cool imaginary landscape
 
 - [node](https://nodejs.org) >= 8.9
 - [npm](https://nodejs.org) >= 5.5.1
-- [preact-cli](https://github.com/developit/preact-cli)
+- [preact-cli](https://github.com/developit/preact-cli) ^2.1.1
 
 ## Backend
 
