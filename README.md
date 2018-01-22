@@ -19,13 +19,13 @@ npm start
 ### Commands
 
 #### Start
-  - To run the app `npm start`
+Run the app `npm start`
 
 #### Dev
-  - To develop and have live reloading `npm run dev`
+Develop and have live reloading `npm run dev`
 
 #### Building 
-  - To build the app `npm run build`
+Build the app `npm run build`
 
 #### Production
-  - To serve that app via a basic web server `npm run serve`
+Serve that app via a basic web server `npm run serve`
