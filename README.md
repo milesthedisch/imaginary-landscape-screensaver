@@ -11,7 +11,7 @@ This website allow the user to traverse through all the cool imaginary landscape
 
 - [webtask.io](webtask.io)
 
-### Getting Started
+# Getting Started
 
 ```
 git clone git@github.com:milesthedisch/imaginary-landscape-screensaver.git
@@ -20,7 +20,7 @@ npm i
 npm start
 ```
 
-### Commands
+## Commands
 
 #### Start
 Run the app `npm start`
