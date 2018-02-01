@@ -1,0 +1,17 @@
+.loaded {
+  display: none;
+};
+
+.loading {
+  display: block;
+};
+
+.image_container { 
+  display: flex;
+  justify-content: space-between;
+  color: red; 
+};
+
+button.more { 
+  color: blue; 
+};

@@ -1,4 +1,5 @@
 import style from './style.scss';
+import _chunk from 'lodash/chunk';
 import { Component } from 'preact';
 
 import fetchImages from '../../lib/fetchImages';
@@ -13,6 +14,7 @@ export default class Images extends Component {
 			this.setState({ loading: true });
 
 			return fetchImages()
+				.then(data => _chunk(data, 3))
 				.then(data => this.setState({ data, loading: false }))
 				.catch(err => this.setState({ err, loading: false }));
 		};
@@ -48,7 +50,6 @@ export default class Images extends Component {
 	// }
 
 	render({ }, { data, loading, err } = { }) {
-		debugger;
 
 		if (err || data.error) {
 			return (<h2>{err || data.error} </h2>);
@@ -59,15 +60,23 @@ export default class Images extends Component {
 		}
 
 		return (
-			<div class={style.imageContainer}>
+			<div>
+				<h2 class={loading ? style.loading : style.loaded}>{loading ? 'Loading...' : ''}</h2>
 
-				<h2 class={loading ? style.loading : ''}>{ loading ? 'Loading...' : '' }</h2>
-
-				{data.map( image => (<Image {...image} />))}
+				{
+					data.map((chunk) => {
+						const imageRow = chunk.map((image) => <Image {...image} />);
+						return (
+							<div class={style.image_container}>
+								{imageRow}
+							</div>
+						);
+					})
+				}
 
 				<div class={style.bottom}>
 					<button class={style.more} onClick={this.fetchImages} disabled={loading}>
-						{ loading ? 'Loading...' : 'Load 25 More' }
+						{loading ? 'Loading...' : 'Load 25 More'}
 					</button>
 				</div>
 

@@ -1,9 +1,13 @@
 import style from './style.scss';
 
 const Image = ({ children, ...props }) => (
-	<div class={style.image}>
-		<img width={props.width / 4} height={props.height / 4} src={props.url} />
-	</div>
+	<div class={style.image} style={`
+			background-image: url("${props.url}");
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center center;
+		`}
+	/>
 );
 
 export default Image;
