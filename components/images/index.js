@@ -1,5 +1,6 @@
 import style from './style.scss';
 import _chunk from 'lodash/chunk';
+import _flatten from 'lodash/flatten';
 import { Component } from 'preact';
 
 import fetchImages from '../../lib/fetchImages';
@@ -13,8 +14,11 @@ export default class Images extends Component {
 		this.fetchImages = () => {
 			this.setState({ loading: true });
 
+			const flattenedData = _flatten(this.state.data);
+
 			return fetchImages()
-				.then(data => _chunk(data, 3))
+				.then(data => flattenedData.concat(data))
+				// .then(data => _chunk(data, 3))
 				.then(data => this.setState({ data, loading: false }))
 				.catch(err => this.setState({ err, loading: false }));
 		};
@@ -52,7 +56,7 @@ export default class Images extends Component {
 	render({ }, { data, loading, err } = { }) {
 
 		if (err || data.error) {
-			return (<h2>{err || data.error} </h2>);
+			return (<h2>{err.msg || data.error} </h2>);
 		}
 
 		if (!data.length && !loading) {
@@ -63,16 +67,9 @@ export default class Images extends Component {
 			<div>
 				<h2 class={loading ? style.loading : style.loaded}>{loading ? 'Loading...' : ''}</h2>
 
-				{
-					data.map((chunk) => {
-						const imageRow = chunk.map((image) => <Image {...image} />);
-						return (
-							<div class={style.image_container}>
-								{imageRow}
-							</div>
-						);
-					})
-				}
+				<div class={style.image_container}>
+					{ data.map((image) => <Image {...image} />) }
+				</div>
 
 				<div class={style.bottom}>
 					<button class={style.more} onClick={this.fetchImages} disabled={loading}>
