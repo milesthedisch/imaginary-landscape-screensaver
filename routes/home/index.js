@@ -5,7 +5,6 @@ import style from './style.scss';
 
 export default class Home extends Component {
 	handleScroll(e) {
-		console.log('handle scroll', e.target.scrollHeight, e.target.scrollTop, e.target.clientHeight);
 		if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
 			return this.setState({ scrolledToBottom: true });
 		}
