@@ -1,6 +1,4 @@
 import style from './style.scss';
-import _chunk from 'lodash/chunk';
-import _flatten from 'lodash/flatten';
 import { Component } from 'preact';
 
 import fetchImages from '../../lib/fetchImages';
@@ -8,17 +6,20 @@ import fetchImages from '../../lib/fetchImages';
 import Image from '../image';
 
 export default class Images extends Component {
+	more = () => {
+		let page = this.state.page + 1;
+		this.setState({ page, loading: true });
+		this.fetchImages();
+	};
+
 	constructor() {
 		super();
 
 		this.fetchImages = () => {
 			this.setState({ loading: true });
 
-			const flattenedData = _flatten(this.state.data);
-
 			return fetchImages()
-				.then(data => flattenedData.concat(data))
-				// .then(data => _chunk(data, 3))
+				.then(data => this.state.data.concat(data))
 				.then(data => this.setState({ data, loading: false }))
 				.catch(err => this.setState({ err, loading: false }));
 		};
@@ -26,40 +27,20 @@ export default class Images extends Component {
 
 	state = {
 		data: [],
-		loading: false
-		// page,
+		loading: false,
+		page: 0,
+		scrolledToBottom: false
 		// terms,
 	};
 
-	// more = () => {
-	// 	let page = this.state.page + 1,
-	// 		cid = this.cid = (this.cid || 0) + 1;
-	// 	this.setState({ page, loading: true });
-
-	// 	flickr.search(this.state.terms, 100, { page }).then( results => {
-	// 		if (cid!==this.cid) return;
-	// 		let data = page>1 ? this.state.data.concat(results) : results;
-	// 		this.setState({ data, loading: false });
-	// 	});
-	// };
-
-	// componentDidMount() {
-	// 	this.setState({ terms:this.props.terms, page:0 });
-	// }
-	
-	// componentWillReceiveProps({ terms }) {
-	// 	if (terms!==this.state.terms) {
-	// 		this.setState({ terms, page:0 });
-	// 	}
-	// }
-
-	render({ }, { data, loading, err } = { }) {
-
+	render({ ...props }, { data, loading, err } = { }) {
 		if (err || data.error) {
-			return (<h2>{err.msg || data.error} </h2>);
+			return (<h2>
+				{err.message || data.message}
+			</h2>);
 		}
 
-		if (!data.length && !loading) {
+		if ((!data.length && !loading) || (props.scrolledToBottom && !loading)) {
 			this.fetchImages();
 		}
 
