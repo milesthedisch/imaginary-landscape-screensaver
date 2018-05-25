@@ -16,11 +16,17 @@ export default class Images extends Component {
 		super();
 
 		this.fetchImages = () => {
+			if (this.state.loading) {
+				return;
+			}
+
 			this.setState({ loading: true });
 
 			return fetchImages()
-				.then(data => this.state.data.concat(data))
-				.then(data => this.setState({ data, loading: false }))
+				.then(newData => {
+					let data = this.state.data.concat(newData);
+					return this.setState({ data });
+				})
 				.catch(err => this.setState({ err, loading: false }));
 		};
 	}
@@ -28,8 +34,7 @@ export default class Images extends Component {
 	state = {
 		data: [],
 		loading: false,
-		page: 0,
-		scrolledToBottom: false
+		page: 0
 		// terms,
 	};
 

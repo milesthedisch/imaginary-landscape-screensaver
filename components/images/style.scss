@@ -12,6 +12,13 @@
   justify-content: space-between;
 };
 
-button.more { 
-  color: blue; 
+.more { 
+  color: blue;
 };
+
+.spinnerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25rem;
+}

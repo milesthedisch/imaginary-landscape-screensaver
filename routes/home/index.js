@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import Images from '../../components/images';
 import style from './style.scss';
 
@@ -15,22 +15,18 @@ export default class Home extends Component {
 	constructor() {
 		super();
 
-		this.handleScrollThorttled = throttle(this.handleScroll.bind(this), 1000);
+		this.handleScrollThorttled = debounce(this.handleScroll.bind(this), 100);
 	}
 
 	state = {
 		scrolledToBottom: false
 	};
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return this.state.scrolledToBottom !== nextState.scrolledToBottom;
-	}
-
 	render() {
 		return (
 			<div class={style.home} onScroll={this.handleScrollThorttled}>
 				<h1>Welcome to Imaginary Landscapes</h1>
-				<p>Helping you find your favorite imaginary landscapes</p>
+				<h2>Helping you find your favorite imaginary landscapes</h2>
 				<Images scrolledToBottom={this.state.scrolledToBottom} />
 			</div>
 		);
