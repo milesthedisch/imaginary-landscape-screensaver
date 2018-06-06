@@ -1,22 +1,23 @@
 import style from './style.scss';
 import { Component } from 'preact';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 
 import fetchImages from '../../lib/fetchImages';
 
 import Image from '../image';
+import Spinner from '../spinner';
 
 export default class Images extends Component {
-	more = () => {
+	more() {
 		let page = this.state.page + 1;
 		this.setState({ page, loading: true });
 		this.fetchImages();
-	};
+	}
 
 	constructor() {
 		super();
 
-		this.fetchImages = throttle(() => {
+		this.fetchImages = debounce(() => {
 			if (this.state.loading) {
 				return;
 			}
@@ -36,11 +37,9 @@ export default class Images extends Component {
 		data: [],
 		loading: false,
 		page: 0
-		// terms,
 	};
 
 	render({ ...props }, { data, loading, err } = { }) {
-
 		if (err || data.error) {
 			return (<h2>
 				{err.message || data.message}
@@ -53,18 +52,10 @@ export default class Images extends Component {
 
 		return (
 			<div>
-				<h2 class={loading ? style.loading : style.loaded}>{loading ? 'Loading...' : ''}</h2>
-
 				<div class={style.image_container}>
 					{ data.map((image) => <Image {...image} />) }
 				</div>
-
-				<div class={style.bottom}>
-					<button class={style.more} onClick={this.fetchImages} disabled={loading}>
-						{loading ? 'Loading...' : 'Load 25 More'}
-					</button>
-				</div>
-
+				{ loading ? <div class={style.spinnerContainer}> <Spinner /> </div> : null }
 			</div>
 		);
 	}
