@@ -1,5 +1,6 @@
 import style from './style.scss';
 import { Component } from 'preact';
+import throttle from 'lodash/throttle';
 
 import fetchImages from '../../lib/fetchImages';
 
@@ -15,7 +16,7 @@ export default class Images extends Component {
 	constructor() {
 		super();
 
-		this.fetchImages = () => {
+		this.fetchImages = throttle(() => {
 			if (this.state.loading) {
 				return;
 			}
@@ -25,10 +26,10 @@ export default class Images extends Component {
 			return fetchImages()
 				.then(newData => {
 					let data = this.state.data.concat(newData);
-					return this.setState({ data });
+					this.setState({ data, loading: false });
 				})
 				.catch(err => this.setState({ err, loading: false }));
-		};
+		}, 300);
 	}
 
 	state = {
@@ -39,6 +40,7 @@ export default class Images extends Component {
 	};
 
 	render({ ...props }, { data, loading, err } = { }) {
+
 		if (err || data.error) {
 			return (<h2>
 				{err.message || data.message}
