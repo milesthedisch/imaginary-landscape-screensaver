@@ -21,11 +21,12 @@
 
     h1 {
 
-      @media (--break-sm) { 
-        font-size: auto;
+      @media (max-width: 384px) { 
+        font-size: 2em;
+        line-height: 2em;
       }
 
-       margin: 0;
+      margin: 0;
       font-size: 2.5em;
       line-height: 1.5em;
       align-items: center;

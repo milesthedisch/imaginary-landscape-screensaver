@@ -21,7 +21,7 @@ export default class Images extends Component {
             return fetchImages(page)
                 .then(newData => {
                     let data = this.state.data.concat(newData);
-                    this.setState({ data, loading: false });
+                    return this.setState({ data, loading: false });
                 })
                 .catch(err => this.setState({ err, loading: false }));
         }, 300);
