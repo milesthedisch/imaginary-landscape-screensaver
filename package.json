@@ -10,8 +10,11 @@
     "dev": "preact watch",
     "lint": "eslint src"
   },
-  "eslintConfig": {
-    "extends": "eslint-config-synacor"
+  eslintConfig: {
+    extends: "problems",
+    env: {
+        "web": true
+    }          
   },
   "eslintIgnore": [
     "build/*"

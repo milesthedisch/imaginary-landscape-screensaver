@@ -6,10 +6,16 @@ import style from './style.scss';
 export default class Home extends Component {
 	handleScroll(e) {
 		if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
-			return this.setState({ scrolledToBottom: true });
-		}
 
-		return this.setState({ scrolledToBottom: false });
+            // Hack Hack Hack. Callback in the setState function was a hack to get the scroll state
+            // to switch back to false after the new photos have loaded. Really not sure how to this
+            // a better way.
+
+			return this.setState({ scrolledToBottom: true }, () => {
+                return this.setState({ scrolledToBottom: false });
+            });
+
+		}
 	}
 
 	constructor() {

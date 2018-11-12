@@ -25,7 +25,7 @@ export default class Image extends Component {
 			return resolutions.slice(resolutions.length / 2)[0];
 		}
 
-		return resolutions[0].url;
+		return resolutions[0];
 	}
 
 	render({ ...props }, { clicked } = {}) {

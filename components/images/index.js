@@ -8,55 +8,50 @@ import Image from '../image';
 import Spinner from '../spinner';
 
 export default class Images extends Component {
-	more() {
-		let page = this.state.page + 1;
-		this.setState({ page, loading: true });
-		this.fetchImages();
-	}
+    moreImages() {
+        let page = this.state.page + 1;
+        this.setState({ page, loading: true });
+        return this.fetchImages(page);
+    }
 
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		this.fetchImages = debounce(() => {
-			if (this.state.loading) {
-				return;
-			}
+        this.fetchImages = debounce((page) => {
+            return fetchImages(page)
+                .then(newData => {
+                    let data = this.state.data.concat(newData);
+                    this.setState({ data, loading: false });
+                })
+                .catch(err => this.setState({ err, loading: false }));
+        }, 300);
+    }
 
-			this.setState({ loading: true });
+    state = {
+        data: [],
+        loading: false,
+        page: -1
+    };
 
-			return fetchImages()
-				.then(newData => {
-					let data = this.state.data.concat(newData);
-					this.setState({ data, loading: false });
-				})
-				.catch(err => this.setState({ err, loading: false }));
-		}, 300);
-	}
+    render({ ...props }, { data, loading, err } = { }) {
 
-	state = {
-		data: [],
-		loading: false,
-		page: 0
-	};
+        if (err || data.error) {
+            return (<h2>
+                {err.message || data.message}
+            </h2>);
+        }
 
-	render({ ...props }, { data, loading, err } = { }) {
-		if (err || data.error) {
-			return (<h2>
-				{err.message || data.message}
-			</h2>);
-		}
+        if ((!data.length && !loading) || (props.scrolledToBottom && !loading)) {
+            this.moreImages();
+        }
 
-		if ((!data.length && !loading) || (props.scrolledToBottom && !loading)) {
-			this.fetchImages();
-		}
-
-		return (
-			<div>
-				<div class={style.image_container}>
-					{ data.map((image) => <Image {...image} />) }
-				</div>
-				{ loading ? <div class={style.spinnerContainer}> <Spinner /> </div> : null }
-			</div>
-		);
-	}
+        return (
+            <div>
+                <div class={style.image_container}>
+                    { data.map((image) => <Image {...image} />) }
+                </div>
+                { loading ? <div class={style.spinnerContainer}> <Spinner /> </div> : null }
+            </div>
+        );
+    }
 }
