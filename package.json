@@ -10,10 +10,10 @@
     "dev": "preact watch",
     "lint": "eslint src"
   },
-  eslintConfig: {
-    extends: "problems",
-    env: {
-        "web": true
+  "eslintConfig": {
+    "extends": "problems",
+    "env": {
+      "web": true
     }          
   },
   "eslintIgnore": [
