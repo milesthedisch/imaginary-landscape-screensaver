@@ -40,9 +40,11 @@ export default class Image extends Component {
 	}
 
 	render({ ...props }, { clicked, thumbnail } = {}) {
+        const lightBoxImage = this.state.sourceImage;
+
         if (clicked) {
             return (
-                <Lightbox>
+                <Lightbox { ...lightBoxImage }>
                     <div class={style.image} style={this.backgroundImage(thumbnail.url)} onClick={() => this.handleClick()} />
                 </Lightbox>
             );
