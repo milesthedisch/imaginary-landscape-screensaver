@@ -18,8 +18,13 @@ export default class Image extends Component {
         };
     }
 
-	handleClick() {
-		this.setState({ clicked: true });
+    parentHandleClick() {
+		this.setState({ clicked: !this.state.clicked });
+    }
+
+	childHandleClick(e) {
+        e.stopImmediatePropagation();
+		this.setState({ clicked: !this.state.clicked });
 	}
 
 	backgroundImage(url) {
@@ -44,14 +49,14 @@ export default class Image extends Component {
 
         if (clicked) {
             return (
-                <Lightbox { ...lightBoxImage }>
-                    <div class={style.image} style={this.backgroundImage(thumbnail.url)} onClick={() => this.handleClick()} />
-                </Lightbox>
+                <div class={style.image} style={this.backgroundImage(thumbnail.url)} onClick={() => this.parentHandleClick()}>
+                    <Lightbox src={ lightBoxImage } onClick={(e) => this.childHandleClick(e)}/>
+                </div>
             );
         }
 
 		return (
-			<div class={style.image} style={this.backgroundImage(thumbnail.url)} onClick={() => this.handleClick()} />
+			<div class={style.image} style={this.backgroundImage(thumbnail.url)} onClick={() => this.parentHandleClick()} />
 		);
 	}
 }
